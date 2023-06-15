@@ -24,8 +24,8 @@ Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-lualine/lualine.nvim' 
 Plug 'numToStr/Comment.nvim'
-
-
+Plug 'chrisbra/Colorizer'
+Plug 'folke/todo-comments.nvim'
 " LSP Support
 Plug 'neovim/nvim-lspconfig'                           " Required
 " LSP Support
@@ -62,7 +62,20 @@ Plug 'github/copilot.vim'
 
 "Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" post install (yarn install | npm install) then load plugin only for editing supported files
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install --frozen-lockfile --production',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'ap/vim-css-color'
+Plug 'tpope/vim-surround'
+"Vim import, install ctags
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 call plug#end()
+
 
 "Colorscheme
 set termguicolors
@@ -80,10 +93,16 @@ nnoremap<leader>fg :GFiles<CR>
 nnoremap<leader>ff :Files<CR>
 nnoremap<leader><Tab> <C-6>
 imap jk <esc>
-nnoremap<C-k> :cnext<CR>
-nnoremap<C-j> :cprev<CR>
 nnoremap<leader>code :SnipRun<CR>
 vnoremap<leader>code :SnipRun<CR>
+nnoremap <C-k> :m .-2<CR>==
+nnoremap <C-j> :m .+1<CR>==
+vnoremap K :m '<-2<CR>gv=gv
+vnoremap J :m '>+1<CR>gv=gv
+nnoremap <leader>css :ColorHighlight<CR>
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+nnoremap <leader>,, <Plug>(JsFileImport)
 
 "Sniprun
 lua <<EOF
@@ -164,7 +183,6 @@ lsp.on_attach(function(client, bufnr)
   local opts = {buffer = bufnr, remap = false}
 
   vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-  vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
   vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
   vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
   vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
@@ -264,5 +282,7 @@ require'nvim-treesitter.configs'.setup {
     additional_vim_regex_highlighting = false,
   },
 }
-EOF
 
+require("todo-comments").setup {}
+
+EOF
