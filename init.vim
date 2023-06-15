@@ -11,8 +11,6 @@ set smartindent
 call plug#begin()
 Plug 'm4xshen/autoclose.nvim'
 Plug 'mattn/emmet-vim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'michaelb/sniprun', {'do': 'sh ./install.sh'}
@@ -74,6 +72,12 @@ Plug 'tpope/vim-surround'
 "Vim import, install ctags
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
+"Telescope
+Plug 'BurntSushi/ripgrep'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
+" or                                , { 'branch': '0.1.x' }
 call plug#end()
 
 
@@ -89,8 +93,6 @@ nnoremap<leader>q :q!<CR>
 nnoremap<leader>w :wq<CR>
 nnoremap<leader>s :w<CR>
 nnoremap<leader><CR> :so ~/.config/nvim/init.vim<CR>
-nnoremap<leader>fg :GFiles<CR>
-nnoremap<leader>ff :Files<CR>
 nnoremap<leader><Tab> <C-6>
 imap jk <esc>
 nnoremap<leader>code :SnipRun<CR>
@@ -103,6 +105,10 @@ nnoremap <leader>css :ColorHighlight<CR>
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 nnoremap <leader>,, <Plug>(JsFileImport)
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 "Sniprun
 lua <<EOF
