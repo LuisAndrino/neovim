@@ -6,9 +6,23 @@ set tabstop=4 softtabstop=4
 set shiftwidth=4
 set expandtab
 set smartindent
+set nobackup
+set noswapfile
+set nowritebackup
+syntax enable 
+set incsearch
+set ignorecase
+set smartcase
+set hlsearch
+set cursorline
+set wildmenu
+set wildmode=list:longest
+set cursorline
 
 "Plugins
 call plug#begin()
+Plug 'folke/tokyonight.nvim'
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'm4xshen/autoclose.nvim'
 Plug 'mattn/emmet-vim'
 Plug 'ellisonleao/gruvbox.nvim'
@@ -69,21 +83,19 @@ Plug 'leafgarland/typescript-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'ap/vim-css-color'
 Plug 'tpope/vim-surround'
-"Vim import, install ctags
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 "Telescope
 Plug 'BurntSushi/ripgrep'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
 " or                                , { 'branch': '0.1.x' }
+Plug 'alvan/vim-closetag'
 call plug#end()
 
 
 "Colorscheme
 set termguicolors
-colorscheme gruvbox
+colorscheme catppuccin-mocha
 set background=dark
 
 "Keybindings
@@ -117,9 +129,13 @@ require("autoclose").setup()
 require('lualine').setup()
 require'sniprun'.setup({
   display = {
-    "VirtualText",
+    "NvimNotify",
   },
 })
+
+display_options = {
+    notification_timeout = 2000,
+    }
 
 
 -- disable netrw at the very start of your init.lua
@@ -292,3 +308,15 @@ require'nvim-treesitter.configs'.setup {
 require("todo-comments").setup {}
 
 EOF
+
+"Close tag config
+let g:closetag_filenames = '*.html,*.xhtml,*.jsx,*.tsx'
+let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.tsx'
+let g:closetag_filetypes = 'html,js'
+let g:closetag_xhtml_filetype = 'xhtml,jsx,tsx'
+let g:closetag_emptyTags_caseSensitive = 1
+let g:closetag_regions = {
+  \ 'typescript.tsx': 'jsxRegion,tsxRegion',
+  \ 'javascript.jsx': 'jsxRegion',
+  \ }
+let g:closetag_shortcut = '>'
