@@ -21,6 +21,7 @@ set cursorline
 
 "Plugins
 call plug#begin()
+Plug 'edkolev/tmuxline.vim'
 Plug 'folke/tokyonight.nvim'
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'm4xshen/autoclose.nvim'
@@ -90,13 +91,22 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
 " or                                , { 'branch': '0.1.x' }
 Plug 'alvan/vim-closetag'
+
+Plug 'ryanoasis/vim-devicons'
+" If you don't have nodejs and yarn
+" use pre build, add 'vim-plug' to the filetype list so vim-plug can update this plugin
+" see: https://github.com/iamcco/markdown-preview.nvim/issues/50
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
+
+" If you have nodejs and yarn
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 call plug#end()
 
 
 "Colorscheme
 set termguicolors
-colorscheme catppuccin-mocha
-set background=dark
+colorscheme habamax
 
 "Keybindings
 let mapleader = " "
@@ -121,6 +131,13 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+let g:tmuxline_preset = 'nightly_fox'
+" or
+let g:tmuxline_preset = 'full'
+" or
+let g:tmuxline_preset = 'tmux'
+" other presets available in autoload/tmuxline/presets/*
 
 "Sniprun
 lua <<EOF
